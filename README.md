@@ -4,6 +4,8 @@ A powerful Streamlit web application that provides AI-powered summaries of vario
 
 🌐 **Live Demo:** [https://quicksum.streamlit.app/](https://quicksum.streamlit.app/)
 
+🌐 **Docker Image:** [docker pull rahula004/quicksumm:latest]
+
 ## ✨ Features
 
 - **Multi-format Support**: Upload and summarize PDF, DOCX, DOC, and TXT files
