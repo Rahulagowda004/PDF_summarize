@@ -17,23 +17,23 @@ A powerful Streamlit web application that provides AI-powered summaries of vario
 
 ### Main Interface
 
-![Document Summarizer Interface](https://github.com/your-repo/PDF_summarize/assets/screenshot1.png)
+![Document Summarizer Interface](Pictures/home.png)
 _Clean and intuitive interface for document upload_
-
-### File Upload and Processing
-
-![File Upload Process](https://github.com/your-repo/PDF_summarize/assets/screenshot2.png)
-_Easy drag-and-drop file upload with support for multiple formats_
 
 ### Generated Summary
 
-![Summary Results](https://github.com/your-repo/PDF_summarize/assets/screenshot3.png)
+![Summary Results](Pictures/summary.png)
 _AI-generated summary with PDF download option_
 
-### Live Application
+### Downloaded Summary
 
-![Live Demo](https://github.com/your-repo/PDF_summarize/assets/screenshot4.png)
-_Working application at quicksum.streamlit.app_
+![Downloaded Summary](Pictures/downloaded_summary.png)
+_Example of downloaded summary document_
+
+### After Document Upload
+
+![After Upload Process](Pictures/after_uploading_document.png)
+_Document successfully uploaded and ready for processing_
 
 ## 🚀 Quick Start
 
