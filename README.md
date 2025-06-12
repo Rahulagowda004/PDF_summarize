@@ -12,7 +12,7 @@ A powerful Streamlit web application that provides AI-powered summaries of vario
    ```
 2. **Run Image:**
    ```bash
-   # To pull directly from docker
+   # To run directly from docker
    docker run -p 8501:8501 rahula004/smarthealth-assistant
    ```
 
