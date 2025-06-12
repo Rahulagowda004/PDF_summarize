@@ -20,6 +20,11 @@ A powerful Streamlit web application that provides AI-powered summaries of vario
 ![Document Summarizer Interface](Pictures/home.png)
 _Clean and intuitive interface for document upload_
 
+### After Document Upload
+
+![After Upload Process](Pictures/after_uploading_document.png)
+_Document successfully uploaded and ready for processing_
+
 ### Generated Summary
 
 ![Summary Results](Pictures/summary.png)
@@ -29,11 +34,6 @@ _AI-generated summary with PDF download option_
 
 ![Downloaded Summary](Pictures/downloaded_summary.png)
 _Example of downloaded summary document_
-
-### After Document Upload
-
-![After Upload Process](Pictures/after_uploading_document.png)
-_Document successfully uploaded and ready for processing_
 
 ## 🚀 Quick Start
 
