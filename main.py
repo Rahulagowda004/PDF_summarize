@@ -7,6 +7,11 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains.summarize import load_summarize_chain
 from langchain_google_genai import ChatGoogleGenerativeAI
 import streamlit as st
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
+import io
 
 load_dotenv()
 
@@ -32,6 +37,51 @@ class text_summarizer:
             return output_summary['output_text']
         except Exception as e:
             return f"Error summarizing PDF: {str(e)}"
+
+def create_pdf_summary(summary_text, original_filename):
+    """Create a PDF from the summary text"""
+    buffer = io.BytesIO()
+    
+    # Create PDF document
+    doc = SimpleDocTemplate(buffer, pagesize=letter,
+                          rightMargin=72, leftMargin=72,
+                          topMargin=72, bottomMargin=18)
+    
+    # Get styles
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        'CustomTitle',
+        parent=styles['Heading1'],
+        fontSize=16,
+        spaceAfter=30,
+        alignment=1  # Center alignment
+    )
+    
+    # Build PDF content
+    story = []
+    
+    # Add title
+    title = Paragraph(f"Summary of {original_filename}", title_style)
+    story.append(title)
+    story.append(Spacer(1, 12))
+    
+    # Add summary content
+    # Split text into paragraphs and add each as a separate Paragraph object
+    paragraphs = summary_text.split('\n\n')
+    for para in paragraphs:
+        if para.strip():
+            p = Paragraph(para.strip(), styles['Normal'])
+            story.append(p)
+            story.append(Spacer(1, 12))
+    
+    # Build PDF
+    doc.build(story)
+    
+    # Get PDF data
+    pdf_data = buffer.getvalue()
+    buffer.close()
+    
+    return pdf_data
 
 # Streamlit App
 with st.sidebar:
@@ -65,6 +115,19 @@ if uploaded_file is not None:
                 
                 st.subheader("📋 Summary")
                 st.write(summary)
+                
+                # Create PDF summary
+                filename_without_ext = Path(uploaded_file.name).stem
+                pdf_data = create_pdf_summary(summary, uploaded_file.name)
+                
+                # Add download button for PDF summary
+                st.download_button(
+                    label="📥 Download Summary as PDF",
+                    data=pdf_data,
+                    file_name=f"{filename_without_ext}_summary.pdf",
+                    mime="application/pdf",
+                    help="Download the summary as a PDF file"
+                )
                 
                 # Clean up temporary file
                 os.unlink(tmp_file_path)
