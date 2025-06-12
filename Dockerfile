@@ -15,16 +15,19 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application files
 COPY main.py .
 
+COPY app.py .
+
 # Set the documents directory as a volume
 VOLUME /app/documents
 
-CMD ["python", "main.py"]
+CMD ["streamlit", "run", "app.py"]
 
 # Build Command:
 # -----------------------------
 # docker build -t rahulagowda04/text_summarizer .
 #
 # Run Command:
+    # docker run -p 8501:8501 rahulagowda04/text_summarizer
 # -----------------------------
 # For Windows PowerShell:
 # docker run -it -v "${PWD}/documents:/app/documents" -e GOOGLE_API_KEY="AIzaSyDoWshQ37GNlfgMLjKwJ40Yxpa8Ntbg8Y8" -e FILE_PATH="/app/documents/deepseek.pdf" rahulagowda04/text_summarizer

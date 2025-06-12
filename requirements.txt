@@ -8,3 +8,4 @@ streamlit
 reportlab
 docx2txt
 python-docx
+openai
