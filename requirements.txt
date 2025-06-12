@@ -6,3 +6,5 @@ python-dotenv
 pypdf
 streamlit
 reportlab
+docx2txt
+python-docx

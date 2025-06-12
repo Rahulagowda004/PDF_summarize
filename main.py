@@ -2,7 +2,7 @@ import os
 import tempfile
 from pathlib import Path
 from dotenv import load_dotenv
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains.summarize import load_summarize_chain
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -21,10 +21,24 @@ class text_summarizer:
                                         google_api_key=api_key)
         self.file_path = file_path
     
+    def load_document(self):
+        """Load document based on file extension"""
+        file_extension = Path(self.file_path).suffix.lower()
+        
+        if file_extension == '.pdf':
+            loader = PyPDFLoader(self.file_path)
+        elif file_extension in ['.docx', '.doc']:
+            loader = Docx2txtLoader(self.file_path)
+        elif file_extension == '.txt':
+            loader = TextLoader(self.file_path, encoding='utf-8')
+        else:
+            raise ValueError(f"Unsupported file format: {file_extension}")
+        
+        return loader.load_and_split()
+    
     def summarize(self):
         try:
-            loader = PyPDFLoader(self.file_path)
-            docs = loader.load_and_split()
+            docs = self.load_document()
             split_docs = RecursiveCharacterTextSplitter(chunk_size=6500, chunk_overlap=400).split_documents(docs)
 
             chain = load_summarize_chain(
@@ -36,7 +50,7 @@ class text_summarizer:
             output_summary = chain.invoke({"input_documents": split_docs}, return_only_outputs=True)
             return output_summary['output_text']
         except Exception as e:
-            return f"Error summarizing PDF: {str(e)}"
+            return f"Error summarizing document: {str(e)}"
 
 def create_pdf_summary(summary_text, original_filename):
     """Create a PDF from the summary text"""
@@ -89,26 +103,31 @@ with st.sidebar:
     "[Get a Google API key](https://makersuite.google.com/app/apikey)"
     "[View the source code](https://github.com/your-repo/PDF_summarize)"
 
-st.title("📄 PDF Summarizer")
-st.caption("🚀 A Streamlit app powered by Google Gemini to summarize PDF documents")
+st.title("📄 Document Summarizer")
+st.caption("🚀 A Streamlit app powered by Google Gemini to summarize PDF, DOCX, and text documents")
 
 # File upload
-uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
+uploaded_file = st.file_uploader(
+    "Choose a document file", 
+    type=["pdf", "docx", "doc", "txt"],
+    help="Supported formats: PDF, Word documents (DOCX/DOC), and text files (TXT)"
+)
 
 if uploaded_file is not None:
     if not google_api_key:
         st.info("Please add your Google API key to continue.")
         st.stop()
     
-    # Save uploaded file to temporary location
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+    # Save uploaded file to temporary location with proper extension
+    file_extension = Path(uploaded_file.name).suffix
+    with tempfile.NamedTemporaryFile(delete=False, suffix=file_extension) as tmp_file:
         tmp_file.write(uploaded_file.getvalue())
         tmp_file_path = tmp_file.name
     
     st.success(f"File '{uploaded_file.name}' uploaded successfully!")
     
     if st.button("Generate Summary"):
-        with st.spinner("Summarizing PDF... This may take a few minutes."):
+        with st.spinner("Summarizing document... This may take a few minutes."):
             try:
                 summarizer = text_summarizer(tmp_file_path, google_api_key)
                 summary = summarizer.summarize()
