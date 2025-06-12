@@ -4,7 +4,7 @@ A powerful Streamlit web application that provides AI-powered summaries of vario
 
 🌐 **Live Demo:** [https://quicksum.streamlit.app/](https://quicksum.streamlit.app/)
 
-🌐 **Docker Image:** [docker pull rahula004/quicksumm:latest]
+🌐 **Docker Image:** docker pull rahula004/quicksumm:latest
 
 ## ✨ Features
 
