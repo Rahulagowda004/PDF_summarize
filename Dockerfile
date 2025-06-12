@@ -24,10 +24,10 @@ CMD ["streamlit", "run", "app.py"]
 
 # Build Command:
 # -----------------------------
-# docker build -t rahulagowda04/text_summarizer .
+# docker build -t rahula004/quicksumm .
 #
 # Run Command:
-    # docker run -p 8501:8501 rahulagowda04/text_summarizer
+# docker run -p 8501:8501 rahula004/quicksumm
 # -----------------------------
 # For Windows PowerShell:
-# docker run -it -v "${PWD}/documents:/app/documents" -e GOOGLE_API_KEY="" -e FILE_PATH="/app/documents/deepseek.pdf" rahulagowda04/text_summarizer
+# docker run -it -v "${PWD}/documents:/app/documents" -e GOOGLE_API_KEY="" -e FILE_PATH="/app/documents/deepseek.pdf" rahula004/quicksumm
