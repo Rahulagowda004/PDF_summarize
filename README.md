@@ -5,9 +5,15 @@ A powerful Streamlit web application that provides AI-powered summaries of vario
 🌐 **Live Demo:** [https://quicksum.streamlit.app/](https://quicksum.streamlit.app/)
 
 🌐 **Docker Image:**
+1. **Pull Image:**
    ```bash
    # To pull directly from docker
    docker pull rahula004/quicksumm:latest
+   ```
+2. **Run Image:**
+   ```bash
+   # To pull directly from docker
+   docker run -p 8501:8501 rahula004/smarthealth-assistant
    ```
 
 ## ✨ Features
